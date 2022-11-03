@@ -156,8 +156,16 @@ namespace RedSocial.Controllers
             }
             return RedirectToRoute(new { controller = "Home", action = "Index" });
         }
+
+        
+         public async Task<IActionResult> EditPost(int id)
+        {
+            var data = await _postServices.GetById(id);
+            return View("PostView", await _postServices.GetById(id));
+        }
         public async Task<IActionResult> Edit(PostSaveViewModel postSaveViewModel)
         {
+            postSaveViewModel.postImg = _upload.UploadImage(postSaveViewModel.File, postSaveViewModel.Id, "Posts", true);
             await _postServices.Update(postSaveViewModel,postSaveViewModel.Id);
             return RedirectToRoute(new { controller = "Home", action = "Index"});
         }

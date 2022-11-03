@@ -1,0 +1,44 @@
+﻿@using Core.Application.ViewModels.Post
+@model PostSaveViewModel
+@{
+    ViewData["Title"] = "Editar publicacion";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                 <div class="card-header bg-primary text-white">
+                    <h4>Editando Publicación</h4>
+                </div>
+                 <div class="card-body">
+                     <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Edit">
+
+                        <div class="mb-3">
+                            <label asp-for="Content" class="form-label">Contenido: </label>
+                            <input type="text" asp-for="Content" class="form-control" />
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                        </div>
+
+                            <label asp-for="postImg" class="form-label">Imagen: </label>
+                        <div class="mb-3">
+                            <img src="@Model.postImg" style="width:200px;height:200px" />
+                        </div>
+                        <div class="mb-3">
+                            <input asp-for="@Model.File" />
+                        </div>
+
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="UserId" />
+                        <input type="hidden" asp-for="User" />
+
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-warning">Volver atras</a>
+
+                    </form>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
