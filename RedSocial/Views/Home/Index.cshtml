@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Core.Application.Helpers;
+@using Core.Application.ViewModels.User;
+@using Core.Application.ViewModels.Post;
+@using Core.Application.ViewModels.Comment
+@using Core.Application.ViewModels;
+
+@inject IHttpContextAccessor httpContext;
+@model HomeViewModel
+@{
+    UserViewModel user = httpContext.HttpContext.Session.Get<UserViewModel>("user");
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center w-50 d-block m-auto">
+    @if (user.IsActiveUser)
+    {
+         <div class="card">
+            <div class="card-header bg-primary text-light">
+                <h4>Contenido de su publicación</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="CreatePost" class="form-floating position-relative " style="margin-bottom:80px;">
+                    <textarea asp-for="@Model.postSaveViewModel.Content" class="form-control" rows="10" placeholder="En que piensas?" style="height: 100px; resize: none;"></textarea>
+                    <input asp-for="@Model.postSaveViewModel.File" class="primary position-absolute w-50 end-50 mt-2" />
+                    <span asp-validation-for="@Model.postSaveViewModel.Content"></span>
+                    <button class="btn btn-primary position-absolute w-25 end-0 mt-2">Publicar</button>
+                </form>
+            </div>
+         </div>
+
+        <div class="text-center d-block m-auto">
+            @foreach (PostViewModel post in Model.postViewModels)
+            {
+                <div class="card mb-3 mt-3 p-4" style="max-width: 540px;">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                       @if (post.postImg != null && post.postImg != "")
+                        {
+                            <img src="@post.postImg" class="img-fluid rounded-start"alt="Publicacion img" />
+                        }
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                            <img src="@post.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
+                            @post.User.UserName
+                        </h5>
+                        <span>@post.User.Name @post.User.LastName</span>
+                        <p class="card-text"><p class="card-text">@post.Content</p>
+                        <p class="card-text"><small class="text-muted">@post.Created</small></p>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a asp-controller="Home" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-sm btn-danger">Borrar</a>
+                    </div>
+                  </div>
+                  <hr>
+                   <a class="text-primary" style="cursor:pointer;text-decoration:none;" data-bs-toggle="collapse" data-bs-target="#collapse-@post.Id" aria-expanded="false" aria-controls="collapse-@post.Id">
+                        Ver comentarios
+                    </a>
+                  
+                    <div class="m-2">
+                        <div class="collapse collapse-horizontal" id="collapse-@post.Id">
+                            @foreach (var comment in post.Comments.ToList())
+                            {
+                            <div class="card m-1" style="width: 100%">
+                                <div class="card-header">
+                                    <div class="float-start">
+                                        <img src="@comment.User.ProfilePicture" style="width:40px;height:40px;border-radius:50%;" />
+                                        @comment.User.Name - @comment.User.UserName @comment.User.LastName
+                                    </div>
+                                </div>
+                                    <div class="card-body">
+                                        <p class="card-text">@comment.Content</p>
+                                    </div>
+                                </div>
+
+                                }
+
+                                <form method="post" asp-controller="Home" asp-action="CreateComment" class="position-relative p-2" style="margin-bottom:80px;">
+                                    <input type="hidden" asp-for="@Model.commentSaveViewModel.IdPost" value=@post.Id />
+                                    <input asp-for="@Model.commentSaveViewModel.Content" class="form-control" placeholder="Comenta la publicación" style="height:40px;" />
+                                    <button class="btn btn-primary position-absolute w-25 end-0 mt-2">Enviar</button>
+                                </form>
+                            </div>
+                    </div>
+                </div>
+
+            }
+
+
+        </div>
+    }
+    else
+    {
+
+        <h1 class="text-center">Activa tu cuenta</h1>
+        <p class="text-center">Para activar su cuenta debe acceder al enlace que se encuentra en el correo que hemos enviado</p>
+    }
+
+</div>

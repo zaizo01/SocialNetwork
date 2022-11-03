@@ -1,0 +1,71 @@
+﻿@using Core.Application.ViewModels.User
+@model UserSaveViewModel
+@{
+    ViewData["Title"] = "Registrar";
+}
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-6 offset-3">
+                <p class="text-danger">
+                    @ViewBag.Acceso
+                </p>
+                <div class="card">
+                <div class="card-header bg-primary text-light">
+                    <h4>Registro de nuevo usuario</h4>
+                </div>
+                <div class="card-body">
+    <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="Register">
+        <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Nombre</label>
+            <input class="form-control" asp-for="Name"  >
+        </div>
+        <span asp-validation-for="LastName" class="text-danger"></span>
+        <div class="mb-3">
+            <label asp-for="LastName" class="form-label">Apellido</label>
+            <input class="form-control" asp-for="LastName"  >
+        </div>
+        <span asp-validation-for="Phone" class="text-danger"></span>
+        <div class="mb-3">
+
+            <label asp-for="Phone" class="form-label">Teléfono</label>
+            <input class="form-control" asp-for="Phone" >
+        </div>
+        <span asp-validation-for="PictureFile" class="text-danger"></span>
+        <div class="mb-3">
+            <label asp-for="PictureFile" class="form-label">Foto de perfil</label>
+            <input class="form-control" asp-for="PictureFile">
+        </div>
+        <span asp-validation-for="Mail" class="text-danger"></span>
+        <div class="mb-3">
+
+            <label asp-for="Mail" class="form-label">Correo </label>
+            <input class="form-control" asp-for="Mail" >
+        </div>
+        <span asp-validation-for="UserName" class="text-danger"></span>
+        <div class="mb-3">
+
+            <label asp-for="UserName" class="form-label">Nombre de usuario</label>
+            <input class="form-control" asp-for="UserName"  >
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+        <div class="mb-3">
+
+            <label asp-for="Password" class="form-label">Password</label>
+            <input class="form-control" asp-for="Password"  >
+        </div>
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        <div class="mb-3">
+
+            <label asp-for="ConfirmPassword" class="form-label">Confirmar contraseña</label>
+            <input class="form-control" asp-for="ConfirmPassword">
+        </div>
+
+        <button class="btn btn-primary">Registrarse</button>
+       <a asp-controller="User" asp-action="Index" class="btn btn-warning">Volver atras</a>
+    </form>
+            </div>
+        </div>
+        </div>
+        </div>
+</div>

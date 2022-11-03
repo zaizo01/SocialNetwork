@@ -1,0 +1,82 @@
+﻿@using Microsoft.AspNetCore.Http; 
+@using Core.Application.Helpers;
+@using Core.Application.ViewModels.User;
+
+@inject IHttpContextAccessor httpContext;
+@{ 
+    UserViewModel userViewModel = httpContext.HttpContext.Session.Get<UserViewModel>("user");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RedSocial</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+        
+    <header>
+        <nav class="navbar navbar-expand-sm  w-100 navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
+            <div class="container d-flex justify-content-between">
+                <a class="navbar-brand text-white" asp-controller="@(User != null ? "Home" : "User")" asp-action="Index"> SocialNetwork</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                @if (userViewModel == null)
+                {
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="User" asp-action="Register">Registrarme</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                }
+                else
+                {
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Home" asp-action="Friends">Amigos</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div >
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item d-flex">
+                                <a class="nav-link text-white">@userViewModel.UserName</a>
+                                <img src="@userViewModel.ProfilePicture" style="width:40px;height:40px;border-radius:50%; " />
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" style="font-size:1.1rem;" asp-controller="User" asp-action="LogOut">Cerrar sesión</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+            </nav>
+
+            </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

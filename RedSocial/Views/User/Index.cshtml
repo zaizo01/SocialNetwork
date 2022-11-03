@@ -1,0 +1,30 @@
+﻿@using Core.Application.ViewModels.User
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid">
+    <div class="col-6 offset-3">
+        <div class="card shadow-sm" >
+            <div class="card-header bg-primary text-light">
+                    <h4>Login</h4>
+                </div>
+            <div class="card-body">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <form method="post" asp-controller="User" asp-action="Index">
+        <div class="mb-3">
+            <label for="" class="form-label">Usuario</label>
+            <input class="form-control" asp-for="UserName" placeholder="Digite su usuario">
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Contraseña</label>
+            <input class="form-control" asp-for="Password" placeholder="Digite su contraseña">
+        </div>
+        <button class="btn btn-primary">Ingresar</button>
+
+    </form>
+</div>
+</div>
+</div>
+</div>
