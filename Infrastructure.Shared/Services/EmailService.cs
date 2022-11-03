@@ -38,7 +38,7 @@ namespace Infrastructure.Shared.Services
                 using SmtpClient smtp = new();
                 smtp.ServerCertificateValidationCallback = (s,c,h,e) => true;
                 smtp.Connect(_mailSettings.SmtpHost, _mailSettings.SmtpPort, SecureSocketOptions.StartTls);
-                smtp.Authenticate("jcfacturationsytem@gmail.com", "7aeDlMYBaJ7P");
+                smtp.Authenticate(_mailSettings.SmtpUser, _mailSettings.StmPass);
                 await smtp.SendAsync(email);
                 smtp.Disconnect(true);
 
