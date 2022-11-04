@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Application.Dtos.Email;
+using Core.Application.Helpers;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
 using Core.Application.ViewModels.User;
@@ -66,6 +67,25 @@ namespace Core.Application.Services
             User user = _mapper.Map<User>(userVm);
             user.IsActiveUser = true;
             await _userRepository.Update(user,user.Id);
+        }
+        public async Task RestorePasswordMail(UserSaveViewModel userVm)
+        {
+            var userList = await _userRepository.GetAll();
+            var userData = userList.FirstOrDefault(x => x.UserName == userVm.UserName);
+            if (userData is not null)
+            {
+                var randomPassword = PasswordGenerator.RandomPassword();
+                var newPassword = PasswordEncrytion.Encriptation(randomPassword);
+                User user = _mapper.Map<User>(userData);
+                user.Password = newPassword;
+                await _userRepository.Update(user, user.Id);
+                await _emailService.SendEmail(new EmailRequest
+                {
+                    To = user.Mail,
+                    Subject = "Cambia de contraseña",
+                    Body = $"Su nueva contraseña es: {randomPassword}"
+                });
+            }
         }
         public async Task<List<UserViewModel>> SearchFriend(SearchFriendViewModel searchViewModel)
         {

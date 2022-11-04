@@ -1,0 +1,26 @@
+﻿@using Core.Application.ViewModels.User
+@model UserSaveViewModel
+@{
+    ViewData["Title"] = "Editar publicacion";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>Restablecer contraseña</h4>
+                </div>
+                <div class="card-body">
+                     <form method="post" asp-controller="User" asp-action="RestorePassword">
+                        <div class="mb-3">
+                            <label asp-for="UserName" class="form-label">Usuario: </label>
+                            <input type="text" asp-for="UserName" class="form-control" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar Correo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

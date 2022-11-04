@@ -12,6 +12,7 @@ namespace Core.Application.Interfaces.Services
     {
         Task<UserViewModel> Login(LoginViewModel loginViewModel);
         Task ConfirmMail(UserSaveViewModel userVm);
+        Task RestorePasswordMail(UserSaveViewModel userVm);
         Task<List<UserViewModel>> SearchFriend(SearchFriendViewModel searchViewModel);
     }
 }

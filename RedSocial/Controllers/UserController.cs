@@ -90,7 +90,24 @@ namespace RedSocial.Controllers
                 return View();
 
             }
-        } 
+        }
+        
+        public async Task<IActionResult> Restore()
+        {
+            return View("Restore");
+        }
+
+        public async Task<IActionResult> RestorePassword(UserSaveViewModel user)
+        {
+            if (!string.IsNullOrEmpty(user.UserName))
+            {
+               var users = await _userService.GetAllViewModels();
+               var userInfo = users.FirstOrDefault(x => x.UserName == user.UserName);
+               if (userInfo is null) return View("UserNotFound");
+               await _userService.RestorePasswordMail(user);
+            }
+            return View("NoficationResetPassword");
+        }
         public async Task<IActionResult> ConfirmUser(int id)
         {
               UserSaveViewModel user = await _userService.GetById(id);
